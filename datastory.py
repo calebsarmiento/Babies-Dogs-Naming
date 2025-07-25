@@ -5,33 +5,28 @@ import altair as alt
 
 st.set_page_config(page_title="Babies vs Dogs")
 
-st.write('# Comparing the Naming of Babies to Dogs')
-
 st.write("""
+# Comparing the Naming of Babies to Dogs
+
 **By Caleb Sarmiento**
 
-When naming a dog, someone might come up with a short list or maybe try calling out a few to the dog, to see if any cause a reaction. A parent might even let their child make the decision all by themself. This cannot also be said for baby names.
+When naming a dog, one might come up with a quick list or try calling out names to the dog, to see if any cause a reaction. A parent might even let their child make the decision all by themselves. On the other hand, parents may spend days or weeks just to come up with a list of many to pick from. The baby's sex and expected personality traits often tailor the name-choosing process, as well as the trending names floating around at the time. After all that, a final decision must be made. The name-choosing process for babies differs wildly from dogs, and looking at data on baby and dog names throughout the past decade reveals this.
 
-Parents may spend days or weeks just to come up with a list of many to pick from. The baby's sex and expected personality traits often tailor the name-choosing process, as well as the trending names floating around at the time. Then, a final decision must be made. The name-choosing process for babies differs wildly from dogs, and looking at data on baby and dog names throughout the past decade reveals this.
-
-Seeing how the data sets compare and contrast to each other can reveal the secrets behind our name-choosing process for babies and dogs. Like for example, what names overlap? Are there baby names that are being "stolen" by the dogs? What names have died out for babies and dogs?
+The way data sets compare and contrast to each other can reveal the secrets behind our name-choosing process for babies and dogs. Like for example, what names overlap? Are there baby names that are being "stolen" by the dogs? What names have died out for babies and dogs?
 
 ---
-""")
 
-st.header("The Data Sets")
+## The Data Sets
 
-st.write("""
 These are the two data sets that will be analyzed in this project. Play around with the sliders and see how the data of dog names and baby names differ and relate! View the charts in fullscreen mode to see the names better when viewing lots of names at once.
 """)
 
 # Sliders for first two charts.
-with st.popover("Graph Sliders!"):
-	year_col1, count_col1 = st.columns(2)
-	with year_col1:
-		select_year = st.slider('Year', min_value=2010, max_value=2023, step=1, value=2010)
-	with count_col1:
-		select_count = st.slider('Number of Names', min_value=1, max_value=100, step=1, value=10)
+year_col1, count_col1 = st.columns(2)
+with year_col1:
+	select_year = st.slider('Year', min_value=2010, max_value=2023, step=1, value=2010)
+with count_col1:
+	select_count = st.slider('Number of Names', min_value=1, max_value=100, step=1, value=10)
 
 # Make dataframe of count for each dog name.
 df_dog = pd.read_csv('dogdata.csv')
@@ -51,8 +46,6 @@ baby_trends = df_baby[df_baby['Year'] == select_year]
 
 baby_trends = baby_trends.groupby('Name', as_index=False)['Count'].sum()
 baby_trends = baby_trends.sort_values(by='Count', ascending=False, ignore_index=True)
-
-
 
 # Chart for baby_trends.
 bars = baby_trends.head(select_count)
@@ -80,7 +73,7 @@ dog_trends_chart = (
 	fontSize=16
 )
 
-# Draw the charts.
+# Old way of displaying the two charts.
 st.altair_chart(baby_trends_chart, use_container_width=True, theme=None)
 st.altair_chart(dog_trends_chart, use_container_width=True, theme=None)
 
